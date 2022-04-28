@@ -1,0 +1,20 @@
+{
+  "name": "gestionmateriel",
+  "version": "1.0.0",
+  "description": "## 🚀 Javascript full-stack 🚀",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MERNG",
+    "Mongo",
+    "Node",
+    "Express",
+    "React",
+    "GraphQl",
+    "Apollo-server-express",
+    "Apollo-client"
+  ],
+  "author": "Fanomezantsoa Herifiandry Marc Nico",
+  "license": "MIT"
+}
