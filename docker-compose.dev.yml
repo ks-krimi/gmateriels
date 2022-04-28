@@ -16,6 +16,7 @@ services:
       - DB_PASSWORD=$DB_PASSWORD
       - DB_HOST=db
       - DB_NAME=$MONGO_INITDB_DATABASE
+      - MONGO_URI=mongodb://$DB_USERNAME:$DB_PASSWORD@db:27017/$MONGO_INITDB_DATABASE
       - PORT=8000
       - ORIGIN=web
       - TOKEN_SECRET=990bf68e6adf1be5f1671bba3bec692056922454
@@ -24,7 +25,10 @@ services:
       - db
 
   web:
-    build: packages/web
+    build:
+      context: packages/web
+      dockerfile: Dockerfile
+      target: builder-dev
     image: materiel-web
     container_name: materiel-web
     expose:

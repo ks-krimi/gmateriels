@@ -1,9 +1,14 @@
 {
-  "name": "gestionmateriel",
+  "name": "root",
+  "private": true,
   "version": "1.0.0",
   "description": "## 🚀 Javascript full-stack 🚀",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "up": "mkdir -p data && docker-compose -f docker-compose.dev.yml up -d",
+    "postup": "wait-on data && npm run dev",
+    "dev": "lerna run --parallel dev",
+    "stop": "docker-compose -f docker-compose.dev.yml stop",
+    "down": "docker-compose -f docker-compose.dev.yml down && rm -rf data/*"
   },
   "keywords": [
     "MERNG",
@@ -16,5 +21,9 @@
     "Apollo-client"
   ],
   "author": "Fanomezantsoa Herifiandry Marc Nico",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lerna": "^4.0.0",
+    "wait-on": "^6.0.1"
+  }
 }

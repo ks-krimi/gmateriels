@@ -1,13 +1,15 @@
 {
-  "name": "backend",
+  "name": "@gmateriel/api",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -r esm server.js"
+    "start": "node -r esm server.js",
+    "dev": "nodemon -r esm server.js"
   },
   "author": "krimi",
   "license": "MIT",
+  "private": true,
   "dependencies": {
     "@graphql-tools/schema": "^8.3.10",
     "apollo-server-core": "^3.6.7",

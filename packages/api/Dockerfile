@@ -1,21 +1,21 @@
 # Build prod image
-FROM node
+# FROM node:14.17.6 as builder
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-COPY package*.json ./
+# COPY package*.json ./
 
-RUN npm install --only=development
+# RUN npm install --only=production
 
-COPY . .
+# COPY . .
 
-ENV NODE_ENV=production
+# ENV NODE_ENV=production
 
-CMD [ "node","-r", "esm", "server.js" ]
+# CMD [ "node","-r", "esm", "server.js" ]
 
 
 # Build dev image
-FROM node as builder-dev
+FROM node:14.17.6 as builder-dev
 
 WORKDIR /usr/src/app
 
