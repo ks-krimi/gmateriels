@@ -10,7 +10,7 @@ import Routes from './Routes'
 import { CssBaseline } from '@material-ui/core'
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql'
+  uri: `${process.env.REACT_APP_API_URL}graphql`
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

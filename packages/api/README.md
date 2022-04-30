@@ -1,33 +1,30 @@
-## Application gestion des matériels coté serveur
+# Application gestion des matériels coté serveur
 
-### 🚀 React / Express / MongoDB / GraphQL 🚀
+## 🚀 React / Express / MongoDB / GraphQL 🚀
+
+### Requirements :
 
 - Install these program in your PC
+
   - MongoDB
   - Node.js
-  - `npm install -g nodemon` (if you don't have installed)
 
----
+### Commandes
 
 - Open a terminal inside the project folder :
-    
-  - Install all backend's packages : `cd backend` + `npm install`
 
-    - then start backend server : `npm start`
+  - Install all backend's packages :
 
----
+  ```sh
+  cd api
 
-### Backend config :
+  npm install
 
-- Create `.env` file inside the backend folder within the following data
-  - PORT=8000 `your localhost port`
-  - ORIGIN=http://localhost:3000 `your client url`
-  - MONGO_URI=mongodb://localhost:27017/materiels `your mongo db uri`
-  - TOKEN_SECRET=990bf68e6adf1be5f1671bba3bec692056922454 `your random secret key`
+  #start server
+  npm start
+  ```
 
-![Alt text](./screenshot.png "Screenshot")
-
----
+![Alt text](./screenshot.png 'Screenshot')
 
 ### Taper cette commande pour créer un compte Adiministrateur
 

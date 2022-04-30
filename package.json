@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "## 🚀 Javascript full-stack 🚀",
   "scripts": {
+    "build": "lerna run --parallel build",
     "up": "mkdir -p data && docker-compose -f docker-compose.dev.yml up -d",
     "postup": "wait-on data && npm run dev",
     "dev": "lerna run --parallel dev",

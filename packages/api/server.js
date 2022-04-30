@@ -1,13 +1,14 @@
-require('dotenv').config({ path: './.env' })
 require('./config/db_conf')
-
+const { HTTP_PORT, ORIGIN, IS_PROD } = require('./config')
 const express = require('express')
 const http = require('http')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const { ApolloServer } = require('apollo-server-express')
 const {
-  ApolloServerPluginLandingPageGraphQLPlayground
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginDrainHttpServer
 } = require('apollo-server-core')
 const { checkUser, requireAuth } = require('./middlewares/auth.middleware')
 const userRoutes = require('./routes/user.routes')
@@ -21,7 +22,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 // use cors middleware
-app.use(cors({ origin: process.env.ORIGIN, credentials: true }))
+app.use(cors({ origin: ORIGIN, credentials: true }))
 
 // auths middlewares
 app.get('*', checkUser)
@@ -38,7 +39,15 @@ app.use('/api/user', userRoutes)
 
   const server = new ApolloServer({
     schema,
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()]
+    plugins: [
+      IS_PROD
+        ? ApolloServerPluginLandingPageDisabled()
+        : ApolloServerPluginLandingPageGraphQLPlayground({
+            settings: { 'request.credentials': 'include' }
+          }),
+      // Arrêt correct du serveur HTTP.
+      ApolloServerPluginDrainHttpServer({ httpServer })
+    ]
   })
 
   await server.start()
@@ -46,9 +55,9 @@ app.use('/api/user', userRoutes)
   server.applyMiddleware({ app })
 
   // server
-  httpServer.listen(process.env.PORT, () => {
+  httpServer.listen(HTTP_PORT, () => {
     console.log(
-      `Le serveur est écouté sur http://localhost:${process.env.PORT}${server.graphqlPath}`
+      `Le serveur est écouté sur http://localhost:${HTTP_PORT}${server.graphqlPath}`
     )
   })
 

@@ -1,11 +1,12 @@
 const userModel = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { errorsRegister, errorsLogin } = require('../utils/errors.utils')
+const { TOKEN_SECRET } = require('../config')
 
 const maxAge = 3 * 24 * 60 * 60 * 1000
 
 const createToken = async (id) => {
-  return jwt.sign({ id }, process.env.TOKEN_SECRET, {
+  return jwt.sign({ id }, TOKEN_SECRET, {
     expiresIn: maxAge
   })
 }

@@ -1,65 +1,18 @@
 version: '3'
 
 services:
-  api:
-    build:
-      context: packages/api
-      dockerfile: Dockerfile
-      target: builder-dev
-    image: materiel-api
-    container_name: materiel-api
-    restart: unless-stopped
-    expose:
-      - 8000
-    environment:
-      - DB_USERNAME=$DB_USERNAME
-      - DB_PASSWORD=$DB_PASSWORD
-      - DB_HOST=db
-      - DB_NAME=$MONGO_INITDB_DATABASE
-      - MONGO_URI=mongodb://$DB_USERNAME:$DB_PASSWORD@db:27017/$MONGO_INITDB_DATABASE
-      - PORT=8000
-      - ORIGIN=web
-      - TOKEN_SECRET=990bf68e6adf1be5f1671bba3bec692056922454
-      - NODE_ENV=development
-    depends_on:
-      - db
-
-  web:
-    build:
-      context: packages/web
-      dockerfile: Dockerfile
-      target: builder-dev
-    image: materiel-web
-    container_name: materiel-web
-    expose:
-      - 80
-    environment:
-      - REACT_APP_API_URL=http://api:8000
-    depends_on:
-      - api
-
   db:
     image: mongo
     container_name: materiel-db
     user: $UID
-    expose:
-      - 27017
+    ports:
+      - 27017:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_ROOT_PASSWORD=root
       - MONGO_INITDB_DATABASE=materiels
       - DB_USERNAME=krimi
       - DB_PASSWORD=root
     volumes:
       - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
       - ./data:/data/db
-
-  proxy:
-    image: nginx
-    container_name: materiel-proxy
-    volumes:
-      - ./proxy.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - 8080:80
-    depends_on:
-      - web

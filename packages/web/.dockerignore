@@ -1,11 +1,12 @@
-dist
-
+node_modules
+public
+src
 .dockerignore
-
+.env
 Dockerfile
+package*.json
+README.md
+screenshot.png
 
 *.log
-
-README.md
-
-screenshot.png
+dist
