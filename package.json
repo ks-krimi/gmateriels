@@ -5,11 +5,11 @@
   "description": "## 🚀 Javascript full-stack 🚀",
   "scripts": {
     "build": "lerna run --parallel build",
-    "up": "mkdir -p data && docker-compose -f docker-compose.dev.yml up -d",
-    "postup": "wait-on data && npm run dev",
+    "up": "docker-compose -f docker-compose.dev.yml up -d",
+    "postup": "npm run dev",
     "dev": "lerna run --parallel dev",
     "stop": "docker-compose -f docker-compose.dev.yml stop",
-    "down": "docker-compose -f docker-compose.dev.yml down && rm -rf data/*"
+    "down": "docker-compose -f docker-compose.dev.yml down"
   },
   "keywords": [
     "MERNG",
@@ -23,8 +23,7 @@
   ],
   "author": "Fanomezantsoa Herifiandry Marc Nico",
   "license": "MIT",
-  "dependencies": {
-    "lerna": "^4.0.0",
-    "wait-on": "^6.0.1"
+  "devDependencies": {
+    "lerna": "^4.0.0"
   }
 }

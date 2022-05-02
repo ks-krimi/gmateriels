@@ -1,7 +1,27 @@
 version: '3'
 
 services:
+  db:
+    image: mongo
+    container_name: materiel-db
+    restart: unless-stopped
+    expose:
+      - 27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE
+      - DB_USERNAME
+      - DB_PASSWORD
+    volumes:
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+      - mongo-data:/data/db
+    networks:
+      - backend
+
   api:
+    depends_on:
+      - db
     build: packages/api
     image: materiel-api
     container_name: materiel-api
@@ -13,41 +33,48 @@ services:
       - DB_PASSWORD
       - DB_HOST=db
       - DB_NAME=$MONGO_INITDB_DATABASE
-      - HTTP_PORT=$HTTP_PORT
-      - ORIGIN_HOST=web
+      - HTTP_PORT
       - TOKEN_SECRET
-    depends_on:
-      - db
+      - PROD_ORIGIN=http://web:80
+    networks:
+      - backend
+      - frontend
+      - nginx
 
   web:
-    build: packages/web
-    image: materiel-web
-    container_name: materiel-web
     depends_on:
       - api
-
-  db:
-    image: mongo
-    container_name: materiel-db
-    user: $UID
-    expose:
-      - 27017
+    build:
+      context: packages/web
     environment:
-      - MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD
-      - MONGO_INITDB_DATABASE
-      - DB_USERNAME
-      - DB_PASSWORD
-    volumes:
-      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
-      - ./data:/data/db
+      - REACT_APP_API_URL
+    image: materiel-web
+    container_name: materiel-web
+    env_file: ./.env
+    networks:
+      - frontend
+      - nginx
 
   proxy:
+    depends_on:
+      - web
     image: nginx
     container_name: materiel-proxy
+    env_file: ./.env
     volumes:
       - ./proxy.conf:/etc/nginx/conf.d/default.conf
     ports:
       - $HTTP_PORT:80
-    depends_on:
-      - web
+    networks:
+      - nginx
+
+volumes:
+  mongo-data:
+    driver: local
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+  nginx:
+    driver: bridge
