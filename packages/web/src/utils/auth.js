@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../http-common'
 
 export const IS_LOGGED_IN = 'isLoggedIn'
 
@@ -7,7 +7,7 @@ export const isLoggedIn = () => IS_LOGGED_IN in localStorage
 export const getToken = async () => {
   await axios({
     method: 'GET',
-    url: `${process.env.REACT_APP_API_URL}jwtid`,
+    url: `jwtid`,
     withCredentials: true
   })
     .then((res) => {

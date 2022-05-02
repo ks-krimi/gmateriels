@@ -9,8 +9,11 @@ import { onError } from '@apollo/client/link/error'
 import Routes from './Routes'
 import { CssBaseline } from '@material-ui/core'
 
+const { REACT_APP_API_URL } = process.env
 const httpLink = new HttpLink({
-  uri: `${process.env.REACT_APP_API_URL}graphql`
+  uri: REACT_APP_API_URL
+    ? `${REACT_APP_API_URL}graphql`
+    : 'http://localhost:8000/graphql'
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

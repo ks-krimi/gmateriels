@@ -8,7 +8,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import TextField from '../controlles/TextField'
 import Button from '../controlles/Button'
-import axios from 'axios'
+import axios from '../../http-common'
 import Snakbar from '../Snackbar'
 import { IconButton, InputAdornment, Link } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
@@ -65,7 +65,7 @@ export default function Register({ setIsLoggin }) {
     const { email, password, nom, prenom } = values
     axios({
       method: 'POST',
-      url: `${process.env.REACT_APP_API_URL}api/user/register`,
+      url: `api/user/register`,
       data: { email, password, nom, prenom, level: 1 },
       withCredentials: true
     })

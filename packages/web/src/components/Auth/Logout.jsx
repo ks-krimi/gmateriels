@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from '@material-ui/core'
 import { ExitToApp } from '@material-ui/icons'
-import axios from 'axios'
+import axios from '../../http-common'
 import Cookies from 'js-cookie'
 import { IS_LOGGED_IN } from '../../utils/auth'
 
@@ -14,7 +14,7 @@ function Logout() {
   const logout = async () => {
     await axios({
       method: 'GET',
-      url: `${process.env.REACT_APP_API_URL}api/user/logout`,
+      url: `api/user/logout`,
       withCredentials: true,
       validateStatus: (status) => {
         return status >= 200 && status < 500
