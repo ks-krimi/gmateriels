@@ -11,3 +11,7 @@ screenshot.png
 *.log
 
 dist
+
+public
+src
+package*.json
